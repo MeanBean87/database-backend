@@ -3,6 +3,7 @@ const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
 
+// This function is a GET route that returns all tags
 router.get('/', (req, res) => {
   Tag.findAll({
     include: [
@@ -17,12 +18,10 @@ router.get('/', (req, res) => {
       console.log(err);
       res.status(500).json(err);
     });
-  // find all tags
-  // be sure to include its associated Product data
 });
 
+// This function is a GET route that returns a single tag by id
 router.get('/:id', (req, res) => {
-
   Tag.findByPk(req.params.id, {
     include: [
       {
@@ -37,10 +36,9 @@ router.get('/:id', (req, res) => {
     }
     res.status(200).json(dbTagData);
   });
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
 });
 
+// This function is a POST route that creates a new tag
 router.post('/', (req, res) => {
   Tag.create(req.body)
     .then((dbTagData) => res.status(200).json(dbTagData))
@@ -48,9 +46,9 @@ router.post('/', (req, res) => {
       console.log(err);
       res.status(500).json(err);
     }); 
-  // create a new tag
 });
 
+// This function is a PUT route that updates a tag's name by its `id` value
 router.put('/:id', (req, res) => {
   Tag.update(req.body, {
     where: {
@@ -63,9 +61,9 @@ router.put('/:id', (req, res) => {
     }
     res.status(200).json(dbTagData);
   });
-  // update a tag's name by its `id` value
 });
 
+// This function is a DELETE route that deletes on tag by its `id` value
 router.delete('/:id', (req, res) => {
   Tag.destroy({
     where: {
@@ -78,7 +76,6 @@ router.delete('/:id', (req, res) => {
     }
     res.status(200).json(dbTagData);
   });
-  // delete on tag by its `id` value
 });
 
 module.exports = router;

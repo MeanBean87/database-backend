@@ -3,6 +3,7 @@ const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
 
+// This function is a GET route that returns all categories
 router.get("/", (req, res) => {
   Category.findAll({
     include: [
@@ -15,12 +16,11 @@ router.get("/", (req, res) => {
     .then((dbCategoryData) => res.status(200).json(dbCategoryData))
     .catch((err) => {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json({ message: "Error finding categories." });
     });
-  // find all categories
-  // be sure to include its associated Products
 });
 
+// This function is a GET route that returns a single category by id
 router.get("/:id", (req, res) => {
   Category.findByPk(req.params.id, {
     include: [
@@ -36,20 +36,19 @@ router.get("/:id", (req, res) => {
     }
     res.status(200).json(dbCategoryData);
   });
-  // find one category by its `id` value
-  // be sure to include its associated Products
 });
 
+// This function is a POST route that creates a new category
 router.post("/", (req, res) => {
   Category.create(req.body)
     .then((dbCategoryData) => res.status(200).json(dbCategoryData))
     .catch((err) => {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json({ message: "Error creating category." });
     });
-  // create a new category
 });
 
+// This function is a PUT route that updates a category by id
 router.put("/:id", (req, res) => {
   Category.update(req.body, {
     where: {
@@ -60,11 +59,11 @@ router.put("/:id", (req, res) => {
       res.status(404).json({ message: "No category found with this id." });
       return;
     }
-    res.status(200).json(dbCategoryData);
+    res.status(200).json({ message: "Category updated."});
   });
-  // update a category by its `id` value
 });
 
+// This function is a DELETE route that deletes a category by id
 router.delete("/:id", (req, res) => {
   Category.destroy({
     where: {
@@ -75,9 +74,8 @@ router.delete("/:id", (req, res) => {
       res.status(404).json({ message: "No category found with this id." });
       return;
     }
-    res.status(200).json(dbCategoryData);
+    res.status(200).json({ message: "Category deleted."});
   });
-  // delete a category by its `id` value
 });
 
 module.exports = router;
