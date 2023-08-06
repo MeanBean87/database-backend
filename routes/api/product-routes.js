@@ -100,10 +100,10 @@ router.put("/:id", (req, res) => {
           ]);
         });
       }
-      return res.json(product);
+      return res.json({ message: "Product updated." });
     })
     .catch((err) => {
-      res.status(400).json(err);
+      res.status(404).json({ message: "No product found with this id." });
     });
 });
 
